@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.OverviewFragment">
+
+    <ImageView
+        android:id="@+id/movie_poster"
+        android:layout_width="@dimen/grid_item_width"
+        android:layout_height="@dimen/grid_item_height"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/movie_poster"
+        android:layout_toRightOf="@+id/movie_poster"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/movie_title"
+            style="@style/text_views" />
+
+        <TextView
+            android:id="@+id/movie_release_date"
+            style="@style/text_views" />
+
+        <TextView
+            android:id="@+id/movie_vote_average"
+            style="@style/text_views" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/movie_plot"
+        style="@style/text_views"
+        android:layout_alignLeft="@+id/movie_poster"
+        android:layout_alignStart="@+id/movie_poster"
+        android:layout_below="@+id/movie_poster" />
+
+
+</RelativeLayout>

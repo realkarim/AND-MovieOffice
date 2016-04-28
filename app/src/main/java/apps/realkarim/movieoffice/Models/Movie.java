@@ -12,6 +12,10 @@ public class Movie implements Parcelable {
     String overview;
     String ratting;
     String posterPath;
+    String release_date;
+
+
+
 
     public Movie(){
     }
@@ -34,6 +38,14 @@ public class Movie implements Parcelable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void setRelease_date(String release_date) {
+        this.release_date = release_date;
+    }
+
+    public String getRelease_date() {
+        return release_date;
     }
 
     public String getId() {
@@ -62,6 +74,7 @@ public class Movie implements Parcelable {
         overview = in.readString();
         ratting = in.readString();
         posterPath = in.readString();
+        release_date = in.readString();
     }
 
     @Override
@@ -76,6 +89,7 @@ public class Movie implements Parcelable {
         dest.writeString(overview);
         dest.writeString(ratting);
         dest.writeString(posterPath);
+        dest.writeString(release_date);
     }
 
     @SuppressWarnings("unused")

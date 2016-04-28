@@ -14,7 +14,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import apps.realkarim.movieoffice.Interfaces.OnDataFetchedListener;
+import apps.realkarim.movieoffice.Interfaces.OnMoviesFetchedListener;
 
 /**
  * Created by karim on 18-Apr-16.
@@ -23,12 +23,12 @@ public class MoviesRetriever extends AsyncTask<Void, Void, String> {
 
     String TAG = MoviesRetriever.class.getName();
 
-    OnDataFetchedListener onDataFetchedListener;
+    OnMoviesFetchedListener onMoviesFetchedListener;
     String key;
     String url;
 
-    public MoviesRetriever(OnDataFetchedListener onDataFetchedListener, String url, String key) {
-        this.onDataFetchedListener = onDataFetchedListener;
+    public MoviesRetriever(OnMoviesFetchedListener onMoviesFetchedListener, String url, String key) {
+        this.onMoviesFetchedListener = onMoviesFetchedListener;
         this.key = key;
         this.url = url;
     }
@@ -107,9 +107,9 @@ public class MoviesRetriever extends AsyncTask<Void, Void, String> {
 
         try{
             JSONObject json = new JSONObject(result);
-            onDataFetchedListener.onDataFetched(result);
+            onMoviesFetchedListener.onDataFetched(result);
         } catch (JSONException e) {
-            onDataFetchedListener.onDataError(result);
+            onMoviesFetchedListener.onDataError(result);
         }
     }
 }

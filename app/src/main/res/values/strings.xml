@@ -11,4 +11,11 @@
     <string name="Image_Base_URL">http://image.tmdb.org/t/p/w185/</string>
 
     <string name="key">KEY</string>
+    <string name="title_activity_details">DetailsActivity</string>
+
+    <array name="tabs_titles">
+        <item>Overview</item>
+        <item>Reviews</item>
+        <item>Trailers</item>
+    </array>
 </resources>

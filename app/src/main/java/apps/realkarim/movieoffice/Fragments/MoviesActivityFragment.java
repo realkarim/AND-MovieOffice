@@ -1,5 +1,6 @@
 package apps.realkarim.movieoffice.Fragments;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,9 +16,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import apps.realkarim.movieoffice.Adapters.GridMoviesAdapter;
-import apps.realkarim.movieoffice.AsyncTasks.MoviesRetriever;
-import apps.realkarim.movieoffice.Interfaces.OnDataFetchedListener;
+import apps.realkarim.movieoffice.Adapters.MoviesGridAdapter;
+import apps.realkarim.movieoffice.DetailsActivity;
+import apps.realkarim.movieoffice.Interfaces.OnMoviesFetchedListener;
 import apps.realkarim.movieoffice.Models.Movie;
 import apps.realkarim.movieoffice.Parsers.MoviesParser;
 import apps.realkarim.movieoffice.Presenters.MoviesPresenter;
@@ -26,11 +27,11 @@ import apps.realkarim.movieoffice.R;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MoviesActivityFragment extends Fragment implements View.OnClickListener, OnDataFetchedListener{
+public class MoviesActivityFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener, OnMoviesFetchedListener {
 
     String TAG = MoviesActivityFragment.class.getName();
     MoviesPresenter presenter;
-    GridMoviesAdapter adapter;
+    MoviesGridAdapter adapter;
 
     public MoviesActivityFragment() {
 
@@ -41,11 +42,12 @@ public class MoviesActivityFragment extends Fragment implements View.OnClickList
                              Bundle savedInstanceState) {
 
         presenter = new MoviesPresenter(getActivity());
-        adapter = new GridMoviesAdapter(getActivity());
+        adapter = new MoviesGridAdapter(getActivity());
 
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
         GridView gridMovies = (GridView) view.findViewById(R.id.grid_movies);
         gridMovies.setAdapter(adapter);
+        gridMovies.setOnItemClickListener(this);
 
 
         return view;
@@ -59,11 +61,18 @@ public class MoviesActivityFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.grid_movies:
 
                 break;
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(getActivity(), DetailsActivity.class);
+        intent.putExtra("movie", (Movie) parent.getItemAtPosition(position));
+        startActivity(intent);
     }
 
     @Override
@@ -85,4 +94,6 @@ public class MoviesActivityFragment extends Fragment implements View.OnClickList
         Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
         Log.e(TAG, error);
     }
+
+
 }
