@@ -36,6 +36,7 @@ public class MoviesRetriever extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        onMoviesFetchedListener.onDataStartFetching();
     }
 
     @Override

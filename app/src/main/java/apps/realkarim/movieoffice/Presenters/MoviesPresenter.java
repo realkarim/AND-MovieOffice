@@ -18,9 +18,13 @@ public class MoviesPresenter {
     }
 
     public void getMovies(OnMoviesFetchedListener onMoviesFetchedListener, String sort_order) {
-//        if(sort_order.equals(context.getResources().getString(R.string.Most_Popular)))
-        MoviesRetriever retriever = new MoviesRetriever(onMoviesFetchedListener, context.getResources().getString(R.string.URL_Most_Popular),
-                context.getResources().getString(R.string.key));
+        MoviesRetriever retriever;
+        if (sort_order.equals(context.getResources().getString(R.string.Most_Popular)))
+            retriever = new MoviesRetriever(onMoviesFetchedListener, context.getResources().getString(R.string.URL_Most_Popular),
+                    context.getResources().getString(R.string.key));
+        else
+            retriever = new MoviesRetriever(onMoviesFetchedListener, context.getResources().getString(R.string.URL_Top_Rated),
+                    context.getResources().getString(R.string.key));
 
         retriever.execute();
     }

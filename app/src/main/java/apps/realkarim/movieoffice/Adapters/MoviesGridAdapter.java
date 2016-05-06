@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -60,6 +61,8 @@ public class MoviesGridAdapter extends BaseAdapter {
         Picasso.with(context)
                 .load(context.getResources().getString(R.string.Image_Base_URL) + movies.get(position).getPosterPath())
                 .into((ImageView) convertView.findViewById(R.id.img));
+
+        ((TextView)convertView.findViewById(R.id.title)).setText(movies.get(position).getTitle());
 
         return convertView;
     }
