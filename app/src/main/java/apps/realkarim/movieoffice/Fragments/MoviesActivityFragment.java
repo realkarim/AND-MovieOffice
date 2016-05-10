@@ -2,7 +2,6 @@ package apps.realkarim.movieoffice.Fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,22 +21,25 @@ import java.util.ArrayList;
 
 import apps.realkarim.movieoffice.Adapters.MoviesGridAdapter;
 import apps.realkarim.movieoffice.DetailsActivity;
-import apps.realkarim.movieoffice.Interfaces.OnMoviesFetchedListener;
+import apps.realkarim.movieoffice.Interfaces.OnDataFetchedListener;
 import apps.realkarim.movieoffice.Models.Movie;
 import apps.realkarim.movieoffice.Parsers.MoviesParser;
 import apps.realkarim.movieoffice.Presenters.MoviesPresenter;
 import apps.realkarim.movieoffice.R;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MoviesActivityFragment extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener, OnMoviesFetchedListener {
+public class MoviesActivityFragment extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener, OnDataFetchedListener {
 
     String TAG = MoviesActivityFragment.class.getName();
     MoviesPresenter presenter;
     MoviesGridAdapter adapter;
     ProgressDialog progress;
-    RadioGroup radioGroup;
+
+    @Bind(R.id.radio_group) RadioGroup radioGroup;
 
     String cashedData = "";
 
@@ -48,11 +50,13 @@ public class MoviesActivityFragment extends Fragment implements AdapterView.OnIt
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_movies, container, false);
+        ButterKnife.bind(this,view);
 
         presenter = new MoviesPresenter(getActivity());
         adapter = new MoviesGridAdapter(getActivity());
 
-        View view = inflater.inflate(R.layout.fragment_movies, container, false);
+
         GridView gridMovies = (GridView) view.findViewById(R.id.grid_movies);
         gridMovies.setAdapter(adapter);
         gridMovies.setOnItemClickListener(this);
@@ -95,8 +99,7 @@ public class MoviesActivityFragment extends Fragment implements AdapterView.OnIt
             JSONObject result = new JSONObject(data);
             MoviesParser moviesParser = new MoviesParser();
             ArrayList<Movie> movies = moviesParser.parse(result);
-
-            adapter.setData(movies);
+            adapter.updateData(movies);
             adapter.notifyDataSetChanged();
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
@@ -125,6 +128,7 @@ public class MoviesActivityFragment extends Fragment implements AdapterView.OnIt
                 presenter.getMovies(this, getResources().getString(R.string.Top_Rated));
                 break;
             case R.id.favorite:
+                presenter.getMovies(this, getResources().getString(R.string.Favorite));
                 break;
         }
     }

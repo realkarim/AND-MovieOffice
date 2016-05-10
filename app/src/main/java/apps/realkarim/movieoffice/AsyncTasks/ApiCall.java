@@ -14,29 +14,31 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import apps.realkarim.movieoffice.Interfaces.OnMoviesFetchedListener;
+import apps.realkarim.movieoffice.Interfaces.OnDataFetchedListener;
 
 /**
  * Created by karim on 18-Apr-16.
  */
-public class MoviesRetriever extends AsyncTask<Void, Void, String> {
+public class ApiCall extends AsyncTask<Void, Void, String> {
 
-    String TAG = MoviesRetriever.class.getName();
+    String TAG = ApiCall.class.getName();
 
-    OnMoviesFetchedListener onMoviesFetchedListener;
+    OnDataFetchedListener onDataFetchedListener;
     String key;
     String url;
 
-    public MoviesRetriever(OnMoviesFetchedListener onMoviesFetchedListener, String url, String key) {
-        this.onMoviesFetchedListener = onMoviesFetchedListener;
+    public ApiCall(OnDataFetchedListener onDataFetchedListener, String url, String key) {
+        this.onDataFetchedListener = onDataFetchedListener;
         this.key = key;
         this.url = url;
+
+
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        onMoviesFetchedListener.onDataStartFetching();
+        onDataFetchedListener.onDataStartFetching();
     }
 
     @Override
@@ -108,9 +110,9 @@ public class MoviesRetriever extends AsyncTask<Void, Void, String> {
 
         try{
             JSONObject json = new JSONObject(result);
-            onMoviesFetchedListener.onDataFetched(result);
+            onDataFetchedListener.onDataFetched(result);
         } catch (JSONException e) {
-            onMoviesFetchedListener.onDataError(result);
+            onDataFetchedListener.onDataError(result);
         }
     }
 }

@@ -7,12 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import apps.realkarim.movieoffice.Models.Movie;
 import apps.realkarim.movieoffice.R;
 
 /**
  * Created by karim on 28-Apr-16.
  */
 public class TrailersFragment extends Fragment {
+    Movie movie;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -5,41 +5,44 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 import apps.realkarim.movieoffice.Models.Movie;
+import apps.realkarim.movieoffice.Models.Review;
 import apps.realkarim.movieoffice.R;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
- * Created by karim on 18-Apr-16.
+ * Created by Karim Mostafa on 09-May-16.
  */
-public class MoviesGridAdapter extends BaseAdapter {
-    ArrayList<Movie> movies;
+public class ReviewListAdapter extends BaseAdapter {
+
+    ArrayList<Review> reviews;
     Context context;
 
-    public MoviesGridAdapter(Context context) {
-        movies = new ArrayList<>();
+    public ReviewListAdapter(Context context) {
+        reviews = new ArrayList<>();
         this.context = context;
     }
 
-    public void updateData(ArrayList<Movie> movies) {
-        this.movies.clear();
-        this.movies.addAll(movies);
+    public void updateData(ArrayList<Review> review) {
+        this.reviews.clear();
+        this.reviews.addAll(review);
     }
 
     @Override
     public int getCount() {
-        return movies.size();
+        return reviews.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return movies.get(position);
+        return reviews.get(position);
     }
 
     @Override
@@ -47,20 +50,22 @@ public class MoviesGridAdapter extends BaseAdapter {
         return position;
     }
 
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.movie_item_layout, null);
+            convertView = inflater.inflate(R.layout.review_item_layout, null);
         }
 
-        Picasso.with(context)
-                .load(context.getResources().getString(R.string.Image_Base_URL) + movies.get(position).getPosterPath())
-                .into((ImageView) convertView.findViewById(R.id.img));
+        TextView reviewer = (TextView) convertView.findViewById(R.id.reviewer);
+        TextView review = (TextView) convertView.findViewById(R.id.review);
 
-        ((TextView)convertView.findViewById(R.id.title)).setText(movies.get(position).getTitle());
+        reviewer.setText(reviews.get(position).getAuthor());
+        review.setText(reviews.get(position).getReview());
+
+
 
         return convertView;
     }

@@ -10,31 +10,29 @@ import java.util.ArrayList;
 
 import apps.realkarim.movieoffice.Interfaces.IParser;
 import apps.realkarim.movieoffice.Models.Movie;
+import apps.realkarim.movieoffice.Models.Review;
 
 /**
- * Created by karim on 20-Apr-16.
+ * Created by Karim Mostafa on 09-May-16.
  */
-public class MoviesParser implements IParser {
+public class ReviewsParser implements IParser {
 
-    String TAG = MoviesParser.class.getName();
+    String TAG = ReviewsParser.class.getName();
+
 
     @Override
     public ArrayList parse(JSONObject json) {
-        ArrayList<Movie> movies = new ArrayList<>();
+        ArrayList<Review> reviews = new ArrayList<>();
 
         try {
             JSONArray jsonArray = json.getJSONArray("results");
             for (int i = 0; i < jsonArray.length(); i++) {
                 try {
                     JSONObject jsonMovie = jsonArray.getJSONObject(i);
-                    Movie movie = new Movie();
-                    movie.setId(jsonMovie.getString("id"));
-                    movie.setTitle(jsonMovie.getString("title"));
-                    movie.setOverview(jsonMovie.getString("overview"));
-                    movie.setRatting(jsonMovie.getInt("vote_average") + "/10");
-                    movie.setPosterPath(jsonMovie.getString("poster_path"));
-                    movie.setRelease_date(jsonMovie.getString("release_date"));
-                    movies.add(movie);
+                    Review review = new Review();
+                    review.setAuthor(jsonMovie.getString("author"));
+                    review.setReview(jsonMovie.getString("content"));
+                    reviews.add(review);
                 } catch (JSONException e) {
                     Log.e(TAG, e.getMessage());
                 }
@@ -42,8 +40,6 @@ public class MoviesParser implements IParser {
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
         }
-
-
-        return movies;
+        return  reviews;
     }
 }

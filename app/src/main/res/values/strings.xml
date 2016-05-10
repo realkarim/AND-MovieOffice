@@ -4,13 +4,16 @@
 
     <string name="Most_Popular">Most_Popular</string>
     <string name="Top_Rated">Top_Rated</string>
+    <string name="Favorite">Favorite</string>
 
     <string name="URL_Most_Popular">http://api.themoviedb.org/3/movie/popular?</string>
     <string name="URL_Top_Rated">http://api.themoviedb.org/3/movie/top_rated?</string>
 
+    <string name="URL_Base">http://api.themoviedb.org/3/</string>
+
     <string name="Image_Base_URL">http://image.tmdb.org/t/p/w185/</string>
 
-    <string name="key">Key</string>
+    <string name="key">key</string>
     <string name="title_activity_details">DetailsActivity</string>
 
     <array name="tabs_titles">

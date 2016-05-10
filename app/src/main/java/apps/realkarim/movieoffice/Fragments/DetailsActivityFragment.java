@@ -7,7 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import apps.realkarim.movieoffice.Adapters.DetailsViewPagerAdapter;
+import apps.realkarim.movieoffice.Adapters.ViewPagerAdapter;
+import apps.realkarim.movieoffice.Models.Movie;
 import apps.realkarim.movieoffice.R;
 
 /**
@@ -27,9 +28,11 @@ public class DetailsActivityFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_details, container, false);
         pager = (ViewPager) view.findViewById(R.id.pager);
 
+        Movie movie = getActivity().getIntent().getParcelableExtra("movie");
+
         tabsTitles = getResources().getStringArray(R.array.tabs_titles);
-        DetailsViewPagerAdapter detailsViewPagerAdapter = new DetailsViewPagerAdapter(getActivity().getSupportFragmentManager(), tabsTitles);
-        pager.setAdapter(detailsViewPagerAdapter);
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager(), tabsTitles, movie);
+        pager.setAdapter(viewPagerAdapter);
 
         return view;
     }
