@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import apps.realkarim.movieoffice.Adapters.MoviesGridAdapter;
 import apps.realkarim.movieoffice.DetailsActivity;
+import apps.realkarim.movieoffice.Interfaces.MovieClickListener;
 import apps.realkarim.movieoffice.Interfaces.OnDataFetchedListener;
 import apps.realkarim.movieoffice.Models.Movie;
 import apps.realkarim.movieoffice.Parsers.MoviesParser;
@@ -38,6 +39,7 @@ public class MoviesActivityFragment extends Fragment implements AdapterView.OnIt
     MoviesPresenter presenter;
     MoviesGridAdapter adapter;
     ProgressDialog progress;
+    MovieClickListener movieClickListener = null;
 
     @Bind(R.id.radio_group) RadioGroup radioGroup;
 
@@ -80,9 +82,7 @@ public class MoviesActivityFragment extends Fragment implements AdapterView.OnIt
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(getActivity(), DetailsActivity.class);
-        intent.putExtra("movie", (Movie) parent.getItemAtPosition(position));
-        startActivity(intent);
+        ((MovieClickListener)getActivity()).onMovieSelected((Movie) parent.getItemAtPosition(position));
     }
 
     @Override
@@ -139,6 +139,5 @@ public class MoviesActivityFragment extends Fragment implements AdapterView.OnIt
         outState.putString("cached_data", cashedData);
         super.onSaveInstanceState(outState);
     }
-
 
 }

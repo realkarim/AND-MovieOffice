@@ -27,8 +27,11 @@ public class DetailsActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_details, container, false);
         pager = (ViewPager) view.findViewById(R.id.pager);
-
-        Movie movie = getActivity().getIntent().getParcelableExtra("movie");
+        Movie movie;
+        if (getActivity().getIntent().getParcelableExtra("movie") != null)
+            movie = getActivity().getIntent().getParcelableExtra("movie");
+        else
+            movie = getArguments().getParcelable("movie");
 
         tabsTitles = getResources().getStringArray(R.array.tabs_titles);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager(), tabsTitles, movie);
