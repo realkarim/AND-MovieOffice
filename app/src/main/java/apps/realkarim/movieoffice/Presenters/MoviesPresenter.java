@@ -36,7 +36,13 @@ public class MoviesPresenter {
 
     public void getReviews(OnDataFetchedListener onDataFetchedListener, String id) {
         String url = context.getResources().getString(R.string.URL_Base) + "movie/" + id + "/reviews";
-        ApiCall apiCall = new ApiCall(onDataFetchedListener, url,context.getResources().getString(R.string.key));
+        ApiCall apiCall = new ApiCall(onDataFetchedListener, url, context.getResources().getString(R.string.key));
+        apiCall.execute();
+    }
+
+    public void getTrailers(OnDataFetchedListener onDataFetchedListener, String id) {
+        String url = context.getResources().getString(R.string.URL_Base) + "movie/" + id + "/videos";
+        ApiCall apiCall = new ApiCall(onDataFetchedListener, url, context.getResources().getString(R.string.key));
         apiCall.execute();
     }
 
