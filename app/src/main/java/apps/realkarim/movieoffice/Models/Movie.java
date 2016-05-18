@@ -13,11 +13,18 @@ public class Movie implements Parcelable {
     String ratting;
     String posterPath;
     String release_date;
+    Boolean isFavorite;
 
+    public Boolean isFavorite() {
+        return isFavorite;
+    }
 
-
+    public void setFavorite(Boolean favorite) {
+        isFavorite = favorite;
+    }
 
     public Movie(){
+        isFavorite = false;
     }
 
     public void setTitle(String title) {

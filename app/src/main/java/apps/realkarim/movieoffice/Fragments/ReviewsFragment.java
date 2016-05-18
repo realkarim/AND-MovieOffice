@@ -68,9 +68,12 @@ public class ReviewsFragment extends Fragment implements OnDataFetchedListener {
 
     @Override
     public void onDataStartFetching() {
-        progress = new ProgressDialog(getActivity());
-        progress.setMessage("Fetching reviews...");
-        progress.show();
+//        if (progress != null && progress.isShowing())
+//            return;
+//
+//        progress = new ProgressDialog(getActivity());
+//        progress.setMessage("Fetching reviews...");
+//        progress.show();
     }
 
     @Override
@@ -87,16 +90,16 @@ public class ReviewsFragment extends Fragment implements OnDataFetchedListener {
             Log.e(TAG, e.getMessage());
         }
 
-        if (progress != null)
-            progress.hide();
+//        if (progress != null)
+//            progress.hide();
     }
 
     @Override
     public void onDataError(String error) {
         Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
         Log.e(TAG, error);
-        if (progress != null)
-            progress.hide();
+//        if (progress != null)
+//            progress.hide();
     }
 
 

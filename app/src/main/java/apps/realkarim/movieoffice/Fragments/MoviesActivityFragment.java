@@ -23,6 +23,7 @@ import apps.realkarim.movieoffice.Adapters.MoviesGridAdapter;
 import apps.realkarim.movieoffice.DetailsActivity;
 import apps.realkarim.movieoffice.Interfaces.MovieClickListener;
 import apps.realkarim.movieoffice.Interfaces.OnDataFetchedListener;
+import apps.realkarim.movieoffice.Interfaces.OnFavoriteDataRetreived;
 import apps.realkarim.movieoffice.Models.Movie;
 import apps.realkarim.movieoffice.Parsers.MoviesParser;
 import apps.realkarim.movieoffice.Presenters.MoviesPresenter;
@@ -33,7 +34,7 @@ import butterknife.ButterKnife;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MoviesActivityFragment extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener, OnDataFetchedListener {
+public class MoviesActivityFragment extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener, OnDataFetchedListener, OnFavoriteDataRetreived {
 
     String TAG = MoviesActivityFragment.class.getName();
     MoviesPresenter presenter;
@@ -41,9 +42,11 @@ public class MoviesActivityFragment extends Fragment implements AdapterView.OnIt
     ProgressDialog progress;
     MovieClickListener movieClickListener = null;
 
-    @Bind(R.id.radio_group) RadioGroup radioGroup;
+    @Bind(R.id.radio_group)
+    RadioGroup radioGroup;
 
-    String cashedData = "";
+    String cashedData = null;
+    ArrayList<Movie> cashedMovie;
 
     public MoviesActivityFragment() {
 
@@ -53,7 +56,7 @@ public class MoviesActivityFragment extends Fragment implements AdapterView.OnIt
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
 
         presenter = new MoviesPresenter(getActivity());
         adapter = new MoviesGridAdapter(getActivity());
@@ -72,9 +75,17 @@ public class MoviesActivityFragment extends Fragment implements AdapterView.OnIt
         if (savedInstanceState != null) {
             RadioButton checkedButton = (RadioButton) radioGroup.findViewById(savedInstanceState.getInt("sort_order"));
             checkedButton.setChecked(true);
-            onDataFetched(savedInstanceState.getString("cached_data"));         // display previously fetched data
+            if (savedInstanceState.getString("cached_data") != null)     // display previously fetched data
+                onDataFetched(savedInstanceState.getString("cached_data"));
+
+
+            if (savedInstanceState.getParcelableArrayList("cached_movies") != null) {    // display previously fetched data
+                ArrayList<Movie> movies = savedInstanceState.getParcelableArrayList("cached_movies");
+                onFavoriteDataFetched(movies);
+            }
+
         } else
-            presenter.getMovies(this, getResources().getString(R.string.Most_Popular));
+            presenter.getMovies(this, null, getResources().getString(R.string.Most_Popular));
 
         return view;
     }
@@ -82,19 +93,22 @@ public class MoviesActivityFragment extends Fragment implements AdapterView.OnIt
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ((MovieClickListener)getActivity()).onMovieSelected((Movie) parent.getItemAtPosition(position));
+        ((MovieClickListener) getActivity()).onMovieSelected((Movie) parent.getItemAtPosition(position));
     }
 
     @Override
     public void onDataStartFetching() {
-        progress = new ProgressDialog(getActivity());
-        progress.setMessage("Fetching movies...");
-        progress.show();
+//        if (progress != null && progress.isShowing())
+//            return;
+//        progress = new ProgressDialog(getActivity());
+//        progress.setMessage("Fetching movies...");
+//        progress.show();
     }
 
     @Override
     public void onDataFetched(String data) {
-        cashedData = data;  // Save data to be restore it on activity re-creation instead of re-fetching it.
+        cashedMovie = null;
+        cashedData = data;      // Save data to be restore it on activity re-creation instead of re-fetching it.
         try {
             JSONObject result = new JSONObject(data);
             MoviesParser moviesParser = new MoviesParser();
@@ -104,6 +118,17 @@ public class MoviesActivityFragment extends Fragment implements AdapterView.OnIt
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
         }
+
+        if (progress != null)
+            progress.hide();
+    }
+
+    @Override
+    public void onFavoriteDataFetched(ArrayList<Movie> movies) {
+        cashedData = null;
+        cashedMovie = movies;              // Save data to be restore it on activity re-creation instead of re-fetching it.
+        adapter.updateData(movies);
+        adapter.notifyDataSetChanged();
 
         if (progress != null)
             progress.hide();
@@ -122,13 +147,13 @@ public class MoviesActivityFragment extends Fragment implements AdapterView.OnIt
 
         switch (v.getId()) {
             case R.id.most_popular:
-                presenter.getMovies(this, getResources().getString(R.string.Most_Popular));
+                presenter.getMovies(this, null, getResources().getString(R.string.Most_Popular));
                 break;
             case R.id.top_rated:
-                presenter.getMovies(this, getResources().getString(R.string.Top_Rated));
+                presenter.getMovies(this, null, getResources().getString(R.string.Top_Rated));
                 break;
             case R.id.favorite:
-                presenter.getMovies(this, getResources().getString(R.string.Favorite));
+                presenter.getMovies(null, this, getResources().getString(R.string.Favorite));
                 break;
         }
     }
@@ -136,8 +161,21 @@ public class MoviesActivityFragment extends Fragment implements AdapterView.OnIt
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt("sort_order", radioGroup.getCheckedRadioButtonId());
-        outState.putString("cached_data", cashedData);
+        if (cashedMovie != null)
+            outState.putParcelableArrayList("cached_movies", cashedMovie);
+
+        if (cashedData != null)
+            outState.putString("cached_data", cashedData);
+
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (progress != null)
+            progress.hide();
     }
 
 }

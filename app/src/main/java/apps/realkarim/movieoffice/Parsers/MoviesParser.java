@@ -34,6 +34,7 @@ public class MoviesParser implements IParser {
                     movie.setRatting(jsonMovie.getInt("vote_average") + "/10");
                     movie.setPosterPath(jsonMovie.getString("poster_path"));
                     movie.setRelease_date(jsonMovie.getString("release_date"));
+                    movie.setFavorite(false);
                     movies.add(movie);
                 } catch (JSONException e) {
                     Log.e(TAG, e.getMessage());

@@ -1,5 +1,9 @@
 package apps.realkarim.movieoffice.Interfaces;
 
+import java.util.ArrayList;
+
+import apps.realkarim.movieoffice.Models.Movie;
+
 /**
  * Created by karim on 20-Apr-16.
  */

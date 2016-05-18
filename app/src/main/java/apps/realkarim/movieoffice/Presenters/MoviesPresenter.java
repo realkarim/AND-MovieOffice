@@ -4,7 +4,9 @@ import android.content.Context;
 
 import apps.realkarim.movieoffice.AsyncTasks.ApiCall;
 import apps.realkarim.movieoffice.Interfaces.OnDataFetchedListener;
+import apps.realkarim.movieoffice.Interfaces.OnFavoriteDataRetreived;
 import apps.realkarim.movieoffice.R;
+import apps.realkarim.movieoffice.data.MoviesProvider;
 
 /**
  * Created by karim on 18-Apr-16.
@@ -17,7 +19,7 @@ public class MoviesPresenter {
         this.context = context;
     }
 
-    public void getMovies(OnDataFetchedListener onDataFetchedListener, String sort_order) {
+    public void getMovies(OnDataFetchedListener onDataFetchedListener, OnFavoriteDataRetreived onFavoriteDataRetreived, String sort_order) {
 
         if (sort_order.equals(context.getResources().getString(R.string.Most_Popular))) {
             ApiCall retriever = new ApiCall(onDataFetchedListener, context.getResources().getString(R.string.URL_Most_Popular),
@@ -30,7 +32,8 @@ public class MoviesPresenter {
             retriever.execute();
 
         } else {
-
+            MoviesProvider moviesProvider = new MoviesProvider(context, onFavoriteDataRetreived);
+            moviesProvider.getFavoriteMovies();
         }
     }
 
