@@ -21,7 +21,7 @@ import com.squareup.picasso.Picasso;
 import apps.realkarim.movieoffice.Models.Movie;
 import apps.realkarim.movieoffice.R;
 import apps.realkarim.movieoffice.data.MoviesProvider;
-import butterknife.ButterKnife;
+
 
 /**
  * Created by karim on 28-Apr-16.

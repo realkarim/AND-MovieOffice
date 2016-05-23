@@ -24,11 +24,6 @@ import apps.realkarim.movieoffice.Parsers.MoviesParser;
 import apps.realkarim.movieoffice.Parsers.ReviewsParser;
 import apps.realkarim.movieoffice.Presenters.MoviesPresenter;
 import apps.realkarim.movieoffice.R;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by karim on 28-Apr-16.
@@ -96,7 +91,7 @@ public class ReviewsFragment extends Fragment implements OnDataFetchedListener {
 
     @Override
     public void onDataError(String error) {
-        Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "Connection Error: Couldn't retrieve reviews!", Toast.LENGTH_SHORT).show();
         Log.e(TAG, error);
 //        if (progress != null)
 //            progress.hide();

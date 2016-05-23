@@ -29,6 +29,4 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.android.support:design:23.2.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.jakewharton:butterknife:7.+'
-    compile 'com.squareup.retrofit2:retrofit:2.0.2'
 }

@@ -97,8 +97,9 @@ public class TrailersFragment extends Fragment implements OnDataFetchedListener,
 
     @Override
     public void onDataError(String error) {
-        Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "Connection Error: Couldn't retrieve trailers!", Toast.LENGTH_SHORT).show();
         Log.e(TAG, error);
+
 //        if (progress != null)
 //            progress.hide();
     }

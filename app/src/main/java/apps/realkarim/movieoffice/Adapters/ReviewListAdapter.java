@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import apps.realkarim.movieoffice.Models.Movie;
 import apps.realkarim.movieoffice.Models.Review;
 import apps.realkarim.movieoffice.R;
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by Karim Mostafa on 09-May-16.

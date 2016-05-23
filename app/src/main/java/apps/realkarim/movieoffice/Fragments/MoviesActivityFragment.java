@@ -28,8 +28,6 @@ import apps.realkarim.movieoffice.Models.Movie;
 import apps.realkarim.movieoffice.Parsers.MoviesParser;
 import apps.realkarim.movieoffice.Presenters.MoviesPresenter;
 import apps.realkarim.movieoffice.R;
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -40,9 +38,7 @@ public class MoviesActivityFragment extends Fragment implements AdapterView.OnIt
     MoviesPresenter presenter;
     MoviesGridAdapter adapter;
     ProgressDialog progress;
-    MovieClickListener movieClickListener = null;
 
-    @Bind(R.id.radio_group)
     RadioGroup radioGroup;
 
     String cashedData = null;
@@ -56,7 +52,6 @@ public class MoviesActivityFragment extends Fragment implements AdapterView.OnIt
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
-        ButterKnife.bind(this, view);
 
         presenter = new MoviesPresenter(getActivity());
         adapter = new MoviesGridAdapter(getActivity());
@@ -98,11 +93,11 @@ public class MoviesActivityFragment extends Fragment implements AdapterView.OnIt
 
     @Override
     public void onDataStartFetching() {
-//        if (progress != null && progress.isShowing())
-//            return;
-//        progress = new ProgressDialog(getActivity());
-//        progress.setMessage("Fetching movies...");
-//        progress.show();
+        if (progress != null && progress.isShowing())
+            return;
+        progress = new ProgressDialog(getActivity());
+        progress.setMessage("Fetching movies...");
+        progress.show();
     }
 
     @Override
@@ -119,7 +114,7 @@ public class MoviesActivityFragment extends Fragment implements AdapterView.OnIt
             Log.e(TAG, e.getMessage());
         }
 
-        if (progress != null)
+        if (progress != null && progress.isShowing())
             progress.hide();
     }
 
@@ -130,15 +125,18 @@ public class MoviesActivityFragment extends Fragment implements AdapterView.OnIt
         adapter.updateData(movies);
         adapter.notifyDataSetChanged();
 
-        if (progress != null)
+        if (progress != null && progress.isShowing())
             progress.hide();
     }
 
     @Override
     public void onDataError(String error) {
-        Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
+        adapter.updateData(new ArrayList<Movie>());
+        adapter.notifyDataSetChanged();
+        Toast.makeText(getActivity(), "Connection Error: Couldn't retrieve movies!", Toast.LENGTH_SHORT).show();
         Log.e(TAG, error);
-        if (progress != null)
+
+        if (progress != null && progress.isShowing())
             progress.hide();
     }
 
@@ -174,8 +172,15 @@ public class MoviesActivityFragment extends Fragment implements AdapterView.OnIt
     public void onStop() {
         super.onStop();
 
-        if (progress != null)
+        if (progress != null && progress.isShowing())
             progress.hide();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(((RadioButton)getView().findViewById(R.id.favorite)).isChecked())
+            presenter.getMovies(null, this, getResources().getString(R.string.Favorite));
+    }
 }

@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import apps.realkarim.movieoffice.Fragments.DetailsActivityFragment;
 import apps.realkarim.movieoffice.Interfaces.MovieClickListener;
@@ -25,6 +26,9 @@ public class MoviesActivity extends AppCompatActivity implements MovieClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
+
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
